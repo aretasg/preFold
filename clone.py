@@ -1,5 +1,7 @@
 import sys
 import numpy as np
+import math
+import statistics
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
@@ -24,6 +26,10 @@ def hb_avg (sequence, hb_dict):
     for i in sequence:
         hb_sum += hb_dict[i]
     return hb_sum / len(sequence)
+
+# a function to calculate standard error
+def std_err (sd, n):
+    return sd / math.sqrt(n)
 
 # a function to find a net charge of a sequence
 # ph value min 0.1; max 14; terminus groups?
@@ -159,35 +165,41 @@ for key, value in sequence_dict.items():
 
 # some info about the unfolded regions
 # add SD, fill in the missing end of the sequence
-disorder_dict = {}
+# make comatable with multiple sequences in a file
+# plotting and stats sections should use two different arrays
+# can use numpy for statistcs
+# round printed values
 for key, value in unfold_plot_dict.items():
-    summ = 0
-    counter = 0
     start_pos = None
     end_pos = 0
+
+    disorder_dict = {}
+    list_for_region = []
     for n, i in enumerate (value):
         if i < -0.005:
-            summ += i
-            counter += 1
+            list_for_region.append(i)
             if start_pos is None:
                 start_pos = n
         if i > -0.005 or n == (len(value) - 1):
             end_pos = n
-            if summ != 0 and end_pos - (start_pos + 1) > 4:
-                region_mean = summ/counter
-                #disorder_dict[key] = dickt[(start_pos + 1, end_pos)] = region_mean
-                disorder_dict[(start_pos + 1, end_pos)] = region_mean
+            if len(list_for_region) > 4:
+                disorder_dict[(start_pos + 1, end_pos)] = list_for_region
             start_pos = None
-            summ = 0
-            counter = 0
-print (disorder_dict)
+            list_for_region = []
+
+    print ('Summary:\nNumber of Disordered Regions: {0}\nLongest Disordered Region: {1}\nNumber of Disordered Residues: {2}'.format(len(disorder_dict), 'foo', 'foo1'))
+    for key1, value1 in disorder_dict.items():
+        mean_ = statistics.mean(value1)
+        std_dev = statistics.stdev(value1)
+        print ('Predicted disorder segment: {0}-{1} length: {2} score: {3} ± {4}'.format(key1[0], key1[1], len(value1), mean_, std_dev))
+    # print (disorder_dict.keys())
 
 # matplotlib and writting output
 # remove first k/2 residues plotting
-fig_num = 1
+fig_counter = 1
 for key, value in unfold_plot_dict.items():
     x_axis = np.arange(1, len(value)+1)
-    plt.figure(fig_num)
+    plt.figure(fig_counter)
     plt.plot(x_axis, value, color='k', linewidth=2, zorder=2)
     if phobicity is True:
         plt.plot(x_axis, hb_plot_dict[key], color='blue', linewidth=1, zorder=3)
@@ -202,6 +214,6 @@ for key, value in unfold_plot_dict.items():
     red_patch = mpatches.Patch(color='r', label='unfolded')
     green_patch = mpatches.Patch(color='g', label='folded')
     plt.legend(handles=[red_patch, green_patch])
+    fig_counter += 1
     # plt.show()
-    fig_num += 1
     # plt.savefig('fold_predict_{0}.png'.format(key.split('|')[0].replace('>', '')))
