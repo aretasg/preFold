@@ -17,12 +17,13 @@ Example useage: 'python preFold.py -i foo.fasta'. This will print out some infor
 * -z Specify the flag for charge of the sequence to be plotted on the figure;
 * -hb Specify the flag for hydrophobicity of the sequence to be plotted on the figure.
 * -ter a flag to exclude N and C terminal charges from the calculation;
+* -b Specify the boundry for calling disordered regions of peptide sequence (default=± 0.005).
 
 Please use --help flag for more information on all options and parameters.
 
 ## Features
 This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web app. preFold surpasses the original in accuracy, availability of options and fixed mistakes. Here are listed a few of them:
-* Allows the user to modify a pH value (this feature is crucial for crystallographers);
+* Allows the user to modify pH value (this feature is crucial for crystallographers);
 * The use of a residue pKa value table of one's preference;
 * Inclusion of N and C terminal charges into the calculation;
 * Uses floating point values for increased precion throughout all the calculation (i.e the values are only rounded when messages are printed to the user in the CLI);

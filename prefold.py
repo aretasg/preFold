@@ -2,12 +2,11 @@
 
 # Author: Aretas Gaspariunas
 # the CLI parser for the program
-# all files distributed with the repository must be located in the same folder for the\
+# all files distributed with the repository must be located in the same folder for the
 # program to be executable
 
 # todo: plot the sequence with green/red highlights of the letters; decimal module;
-# legend placement should be bellow the figure; round values in csv file; compile to cython;
-# set ph limits; sequence in fasta file limits
+# legend placement should be bellow the figure; compile to cython;
 if __name__ == '__main__':
 
     import argparse
@@ -18,7 +17,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='''A CLI tool to predict foldability of a peptide sequence.\n
             The tool is inteded to be used with Python 3.6.\n
-            For more information and support please visit: github.com/aretas2/prefold''',
+            For more information and support please visit: github.com/aretas2/preFold''',
         epilog='Example usage in CLI: "prefold.py -i foo.fasta')
     parser._action_groups.pop()
     required = parser.add_argument_group('required arguments')
@@ -26,7 +25,7 @@ if __name__ == '__main__':
     required.add_argument('-i', '--fasta',
         help='Specify the FASTA file with a peptide sequence(s) for foldability prediciton ', required=True)
     optional.add_argument('-ph', '--ph_lvl',
-        help='Specify the pH level to be used for the foldability prediction calculation (0 < pH < 14).', default=7.4, type=float)
+        help='Specify the pH level to be used for the foldability prediction calculation (0.1 < pH < 14).', default=7.4, type=int)
     optional.add_argument('-pka', '--pka_table',
         help='Specify a file with amino acid residue pKa values to be used for the calculation', default='PKA_DATA_CRC.DAT')
     optional.add_argument('-ter', '--ter_include',
@@ -43,7 +42,15 @@ if __name__ == '__main__':
         help='Specify this flag if you wish the charge of the sequence to be plotted', action='store_true')
     optional.add_argument('-hb', '--plot_hb',
         help='Specify this flag if you wish the phobicity of the sequence to be plotted', action='store_true')
+    optional.add_argument('-b', '--boundry',
+        help='Specify this the boundry for calling disordered regions of peptide sequence', type=float, default=0.005)
     args = parser.parse_args()
+
+    if args.ph_lvl < 0.1 or args.ph_lvl > 14:
+        parser.error('Please select pH value in range: 0.1 < pH < 14')
+
+    if args.boundry < 0:
+        args.boundry = abs(args.boundry)
 
     # open and parse a fasta file
     try:
@@ -54,16 +61,21 @@ if __name__ == '__main__':
                 sequence_dict[sequence.split('\n')[0]] = ''.join(sequence.split
                     ('\n')[1:]).upper().replace('*', '')
             del sequence_dict['']
+            # check if there a no more than 60 sequencies
+            if len(sequence_dict) > 60:
+                sys.exit('''There are too many sequencies in the '{0}'file. \
+                    The program is designed to accept up to 60 sequencies at once'''.format(args.fasta))
+            else:
+                pass
+            # check if the sequence is a peptide
             for key, value in sequence_dict.items():
                 if re.search(r'S|V|L|I|M|F|R|H|Y|W|P|E|D|Q|N|K', value):
                     continue
                 else:
-                    print("The input '{0}' sequence(s) is not a peptide sequence".format(key))
-                    sys.exit()
+                    sys.exit("The input '{0}' sequence(s) is not a peptide sequence".format(key))
             print ('Found {0} peptide sequence(s) in the FASTA file.'.format(len(sequence_dict)))
     except IOError:
-        print('Could not open the file! Please make sure {0} is in fasta format'.format(args.fasta))
-        sys.exit()
+        sys.exit('Could not open the file! Please make sure {0} is in fasta format'.format(args.fasta))
 
     # open and parse normalised amino acid hydrophobicity data
     hb_data_dict = {}
@@ -78,8 +90,7 @@ if __name__ == '__main__':
             for line in pka_data:
                 pka_data_dict[line.split()[0]] = [float(i) for i in line.split()[1:]]
     except IOError:
-        print('Could not open the file! Please make sure {0} is in the right format'.format(args.pka_table))
-        sys.exit()
+        sys.exit('Could not open the file! Please make sure {0} is in the right format'.format(args.pka_table))
 
     # performing hydrophobicity, charge and unfoldability data calculation using a sliding window
     data_dict = {}
@@ -92,7 +103,6 @@ if __name__ == '__main__':
     for key, value in data_dict.items():
         if args.output_csv is True:
             write_data_2_csv (key, value)
-        print_data_info (value['unfoldability'], key, sequence_dict, hb_data_dict, pka_data_dict, args.ph_lvl)
-        #def generate_figure (y1, y2, y3, hb, charge, win_size, tag, fig_counter, phobicity, charges):
+        print_data_info (value['unfoldability'], key, sequence_dict, hb_data_dict, pka_data_dict, args.ph_lvl, args.boundry)
         generate_figure (value['unfoldability'], value['hydrophobicity'], value['charge'], args.window_size, key, figure_number, args.plot_hb, args.plot_charge)
         figure_number += 1

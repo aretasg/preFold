@@ -125,7 +125,7 @@ def unfoldty_sliding_win (ph_level, win_size, step, seq, n_ter, c_ter, pka_table
     return dt
 
 # prints some info about the unfolded regions
-def print_data_info (value, tag, seq_dict, hb_dict, pka_table, ph_level):
+def print_data_info (value, tag, seq_dict, hb_dict, pka_table, ph_level, boundry):
     start_pos = None # the start position of a disordered region
     end_pos = 0 # the end position of a disordered region
 
@@ -135,11 +135,11 @@ def print_data_info (value, tag, seq_dict, hb_dict, pka_table, ph_level):
     disorder_dict = {}
     list_for_region = []
     for n, i in enumerate (value):
-        if i < -0.005:
+        if i < -1*boundry:
             list_for_region.append(i)
             if start_pos is None:
                 start_pos = n
-        if (i > 0.005 or n == (len(value) - 1)) and start_pos is not None:
+        if (i > boundry or n == (len(value) - 1)) and start_pos is not None:
             end_pos = start_pos + len(list_for_region)
             if len(list_for_region) > 4:
                 disorder_dict[(start_pos + 1, end_pos)] = np.asarray(list_for_region)
@@ -173,7 +173,7 @@ def print_data_info (value, tag, seq_dict, hb_dict, pka_table, ph_level):
 
 # writes data to .csv
 def write_data_2_csv (tag, dataframe):
-    dataframe.to_csv('{0}.csv'.format(tag), sep=',', index=False)
+    np.round(dataframe, decimals=5).to_csv('{0}.csv'.format(tag.split('|')[0]), sep=',', index=False)
 
 # generating unfoldability figures for each sequence
 def generate_figure (y1, y2, y3, win_size, tag, fig_counter, phobicity, charges):
