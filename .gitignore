@@ -4,3 +4,4 @@ HB_DATA.DAT
 norm_hb.py
 foo.txt
 .DS_store
+__pycache__
