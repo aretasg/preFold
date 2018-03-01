@@ -22,12 +22,12 @@ Please use --help flag for more information on all options and parameters.
 
 ## Features
 This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web app. preFold surpasses the original in accuracy, availability of options and fixed mistakes. Here are listed a few of them:
-*Allows the user to modify a pH value (this feature is crucial for crystallographers);
-*Allows the use of a residue pKa value table of one's preference;
-*Allows inclusion of N and C terminal charges into the calculation;
-*Uses floating point values for increased precion throughout all the calculation (i.e the values are only rounded when messages are printed to the user in the CLI);
-*The boundry line ± 0.005 for calling disordered peptide regions is included in this tool in contrast to the FoldIndex (It seems the FoldIndex authors in the publication falsley claimed it to be included). In addion, this boundry line can be modified by the user.
-*Improved charge plotting (negative values are plotted)
+* Allows the user to modify a pH value (this feature is crucial for crystallographers);
+* The use of a residue pKa value table of one's preference;
+* Inclusion of N and C terminal charges into the calculation;
+* Uses floating point values for increased precion throughout all the calculation (i.e the values are only rounded when messages are printed to the user in the CLI);
+* The boundry line ± 0.005 for calling disordered peptide regions is included in this tool in contrast to the FoldIndex (it seems the FoldIndex authors in the publication falsley claimed it to be included). In addion, this boundry line can be modified by the user.
+* Improved peptide charge plotting (negative values are plotted).
 
 ### Limitations
 The tool does not account for the pertrubed pKa values of residues by the neighbouring residue groups and does not assume any disuphide bridges.
