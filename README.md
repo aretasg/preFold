@@ -5,7 +5,7 @@ A CLI tool to predict foldability of a peptide sequence. The program accepts a F
 ## Getting Started
 
 ### Dependecies
-**The script was written in and intended to be used with Python 3.6 use it with caution when executing with 2.7 interpreter. You will need a SciPy stack and colorama installed to run the program with full functionality.**
+**The script was written in and intended to be used with Python 3.6 use it with caution when executing with 2.7 interpreter. You will need a SciPy stack and colorama installed to run the program with a full functionality.**
 
 ### Example useage:
 ```
@@ -48,7 +48,7 @@ Predicted disorder segment: 168-178 length: 11 score: -0.069 ± 0.03
 * -hb Specify the flag for hydrophobicity of the sequence to be plotted on the figure.
 * -ter a flag to exclude N and C terminal charges from the calculation;
 * -b Specify the boundry for calling disordered regions of peptide sequence (default=± 0.005);
-* -f Specify the dpi of a figure (default = 750).
+* -f Specify the dpi (resolution) of a figure (default = 200).
 
 Please use --help flag for more information on all options and parameters.
 
@@ -59,7 +59,7 @@ This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web ap
 * Inclusion of N and C terminal charges into the calculation;
 * Uses floating point values for increased precion throughout the calculation (i.e the values are only rounded when messages are printed to the user in the CLI);
 * The boundry line ± 0.005 for calling disordered peptide regions is included in this tool in contrast to the FoldIndex (it seems the FoldIndex authors in the publication falsley claimed it to be included). In addion, this boundry line can be modified by the user;
-* Publication quality figure generation
+* Generation of publication quality figures;
 * Improved peptide charge plotting (negative values are plotted).
 
 ### Upcoming features:

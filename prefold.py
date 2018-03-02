@@ -5,7 +5,7 @@
 # all files distributed with the repository must be located in the same folder for the
 # program to be executable
 
-# todo: decimal module; compile to cython, add static typing.
+# todo: decimal module; add static typing to .pyx
 if __name__ == '__main__':
 
     import argparse
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     optional.add_argument('-b', '--boundry',
         help='Specify the boundry for calling disordered regions of peptide sequence', type=float, default=0.005)
     optional.add_argument('-f', '--figure_dpi',
-        help='Specify the dpi of a figure', type=int, default=750)
+        help='Specify the dpi (resolution) of a figure', type=int, default=200)
     args = parser.parse_args()
 
     if args.ph_lvl < 0.1 or args.ph_lvl > 14:

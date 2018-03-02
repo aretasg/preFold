@@ -206,7 +206,7 @@ def print_data_info (value, tag, seq_dict, hb_dict, pka_table, ph_level, boundry
     new_string = ''
     index = 1
     for i in string2print.split('\n'):
-        new_string += str("% 4d" % index) + ' ' + i + '\n'
+        new_string = ''.join([new_string, str("% 4d" % index) + ' ' + i + '\n'])
         index += 50
     print (new_string)
     # print (''.join(string2print) + '\n')
@@ -227,7 +227,7 @@ def generate_figure (y1, y2, y3, win_size, tag, fig_counter, phobicity, charges,
     x_axis = np.arange(1, len(y1)+1)
     fig, ax = plt.subplots()
     plt.figure(fig_counter)
-    plot1 = plt.plot(x_axis, y1, color='k', linewidth=2, zorder=2)
+    plot1 = plt.plot(x_axis, y1, color='k', linewidth=1, zorder=2)
     # plotting phobicity and charge
     if phobicity is True:
         for i in range(0, int(win_size/2 - 1)):
