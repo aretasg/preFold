@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 import sys
-import numpy as np
-import pandas as pd
+import numpy as np # 1.13.3
+import pandas as pd # 0.22.0
 import math
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # 2.1.2
 import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
 
@@ -170,13 +170,54 @@ def print_data_info (value, tag, seq_dict, hb_dict, pka_table, ph_level, boundry
         std_dev = np.std(value1)
         print ('Predicted disorder segment: {0}-{1} length: {2} score: {3:.3f} ± {4:.2f}'
             .format(key1[0], key1[1], len(value1), mean_, std_dev))
+    print ()
+
+    # printing sequence coloured by ordered/disordered regions
+    try:
+        from colorama import Fore # 0.3.9
+        from colorama import Style
+    except:
+        sys.exit('Please make sure colorama module is installed for the coloured representation of the disordered regions')
+
+    string2print = list(seq_dict[tag])
+    # writting colours
+    counter = 0
+    for k, v in disorder_dict.items():
+        string2print.insert(int(k[0]) - 1 + counter, f'{Fore.RED}')
+        string2print.insert(int(k[1]) + 1 + counter, f'{Style.RESET_ALL}')
+        string2print.insert(int(k[1]) + 2 + counter, f'{Fore.GREEN}')
+        string2print.insert(int(k[0]) - 1 + counter, f'{Style.RESET_ALL}')
+        counter += 4
+    # indentations
+    index = 1
+    for n, i in enumerate(string2print):
+        if len(i) > 1 or i == ' ' or i == '\n':
+            pass
+        elif index % 10 == 0:
+            if index % 50 == 0:
+                string2print.insert(n + 1, '\n')
+            else:
+                string2print.insert(n + 1, ' ')
+            index += 1
+        else:
+            index += 1
+    # numbers
+    string2print = f'{Fore.GREEN}' + ''.join(string2print) + f'{Style.RESET_ALL}'
+    new_string = ''
+    index = 1
+    for i in string2print.split('\n'):
+        new_string += str("% 4d" % index) + ' ' + i + '\n'
+        index += 50
+    print (new_string)
+    # print (''.join(string2print) + '\n')
+    print (f'{Fore.RED}' + '(Predicted disordered segment)' + f'{Style.RESET_ALL}\n')
 
 # writes data to .csv
 def write_data_2_csv (tag, dataframe):
     np.round(dataframe, decimals=5).to_csv('{0}.csv'.format(tag.split('|')[0]), sep=',', index=False)
 
 # generating unfoldability figures for each sequence
-def generate_figure (y1, y2, y3, win_size, tag, fig_counter, phobicity, charges):
+def generate_figure (y1, y2, y3, win_size, tag, fig_counter, phobicity, charges, dpi):
     # removing first and last k/2 values
     for i in range(0, int(win_size/2 - 1)):
         y1[i] = np.nan
@@ -186,7 +227,7 @@ def generate_figure (y1, y2, y3, win_size, tag, fig_counter, phobicity, charges)
     x_axis = np.arange(1, len(y1)+1)
     fig, ax = plt.subplots()
     plt.figure(fig_counter)
-    plt.plot(x_axis, y1, color='k', linewidth=2, zorder=2)
+    plot1 = plt.plot(x_axis, y1, color='k', linewidth=2, zorder=2)
     # plotting phobicity and charge
     if phobicity is True:
         for i in range(0, int(win_size/2 - 1)):
@@ -211,26 +252,35 @@ def generate_figure (y1, y2, y3, win_size, tag, fig_counter, phobicity, charges)
     plt.fill_between(x_axis_new, 0, y_axis_new , where=y_axis_new >0, interpolate=True, color='g', zorder=4)
     plt.fill_between(x_axis_new, 0, y_axis_new , where=y_axis_new <0, interpolate=True, color='r', zorder=4)
     # legend
+    # shrinking the plot to fit the legend at the bottom
+    box = ax.get_position()
+    ax.set_position([box.x0, box.y0 + box.height * 0.15, box.width, box.height * 0.85])
+    # creating legend markupds
     red_patch = mpatches.Patch(color='r', label='unfolded')
     green_patch = mpatches.Patch(color='g', label='folded')
     blue_line = mlines.Line2D([], [], color='blue',
                   markersize=15, label='hydrophobicity')
     pink_line = mlines.Line2D([], [], color='pink',
                   markersize=15, label='charge')
+    # setting legend
     if phobicity is True and charges is True:
-        plt.legend(handles=[red_patch, green_patch, blue_line, pink_line])
+        ax.legend(handles=[red_patch, green_patch, blue_line, pink_line],
+            loc='upper center', bbox_to_anchor=(0.5, -0.17), fancybox=True, ncol=5)
     elif phobicity is True:
-        plt.legend(handles=[red_patch, green_patch, blue_line])
+        ax.legend(handles=[red_patch, green_patch, blue_line], loc='upper center',
+            bbox_to_anchor=(0.5, -0.17), fancybox=True, ncol=5)
     elif charges is True:
-        plt.legend(handles=[red_patch, green_patch, pink_line])
+        ax.legend(handles=[red_patch, green_patch, pink_line], loc='upper center',
+            bbox_to_anchor=(0.5, -0.17), fancybox=True, ncol=5)
     else:
-        plt.legend(handles=[red_patch, green_patch])
+        ax.legend(handles=[red_patch, green_patch], loc='upper center',
+            bbox_to_anchor=(0.5, -0.17), fancybox=True, ncol=5)
     # x axis tick
     locs = ax.xaxis.get_ticklocs()
     ax.set_xticks(np.append(locs[1:], len(y1)))
     plt.xticks(rotation='vertical')
-    # plt.show()
-    plt.savefig('fold_predict_{0}.png'.format(tag.split('|')[0].replace('>', '') + '_' + str(fig_counter)), format='png', dpi=1000, figsize=(8,4))
+    #plt.show()
+    plt.savefig('fold_predict_{0}.png'.format(tag.split('|')[0].replace('>', '') + '_' + str(fig_counter)), format='png', dpi=dpi, figsize=(8,4))
 
 if __name__ == '__main__':
     pass

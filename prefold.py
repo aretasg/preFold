@@ -5,8 +5,7 @@
 # all files distributed with the repository must be located in the same folder for the
 # program to be executable
 
-# todo: plot the sequence with green/red highlights of the letters; decimal module;
-# legend placement should be bellow the figure; compile to cython;
+# todo: decimal module; compile to cython
 if __name__ == '__main__':
 
     import argparse
@@ -43,7 +42,9 @@ if __name__ == '__main__':
     optional.add_argument('-hb', '--plot_hb',
         help='Specify this flag if you wish the phobicity of the sequence to be plotted', action='store_true')
     optional.add_argument('-b', '--boundry',
-        help='Specify this the boundry for calling disordered regions of peptide sequence', type=float, default=0.005)
+        help='Specify the boundry for calling disordered regions of peptide sequence', type=float, default=0.005)
+    optional.add_argument('-f', '--figure_dpi',
+        help='Specify the dpi of a figure', type=int, default=750)
     args = parser.parse_args()
 
     if args.ph_lvl < 0.1 or args.ph_lvl > 14:
@@ -97,6 +98,7 @@ if __name__ == '__main__':
     for key, value in sequence_dict.items():
         data_dict[key] = unfoldty_sliding_win (args.ph_lvl, args.window_size, args.step,
             value, args.ter_include, args.ter_include, pka_data_dict, hb_data_dict)
+            # returns pd dataframe with hb, charge and unfold column; stores in dict under the fasta tag as a key
 
     # generating information statistics, general information and figures for the input
     figure_number = 1
@@ -104,5 +106,5 @@ if __name__ == '__main__':
         if args.output_csv is True:
             write_data_2_csv (key, value)
         print_data_info (value['unfoldability'], key, sequence_dict, hb_data_dict, pka_data_dict, args.ph_lvl, args.boundry)
-        generate_figure (value['unfoldability'], value['hydrophobicity'], value['charge'], args.window_size, key, figure_number, args.plot_hb, args.plot_charge)
+        generate_figure (value['unfoldability'], value['hydrophobicity'], value['charge'], args.window_size, key, figure_number, args.plot_hb, args.plot_charge, args.figure_dpi)
         figure_number += 1

@@ -4,7 +4,7 @@ A CLI tool to predict foldability of a peptide sequence. The program accepts a F
 
 Example useage: 'python preFold.py -i foo.fasta'. This will print out some information about the sequence, disordered regions in CLI and generate an .png file showing the predicted foldability of the peptide sequence.
 
-**The script was written in and intended to be used with Python 3.6 use it with caution when executing with 2.7 interpreter. You will need a SciPy stack to be installed to run the program.**
+**The script was written in and intended to be used with Python 3.6 use it with caution when executing with 2.7 interpreter. You will need a SciPy stack and colorama installed to run the program with full functionality.**
 
 ## Usage and arguments
 
@@ -17,7 +17,8 @@ Example useage: 'python preFold.py -i foo.fasta'. This will print out some infor
 * -z Specify the flag for charge of the sequence to be plotted on the figure;
 * -hb Specify the flag for hydrophobicity of the sequence to be plotted on the figure.
 * -ter a flag to exclude N and C terminal charges from the calculation;
-* -b Specify the boundry for calling disordered regions of peptide sequence (default=± 0.005).
+* -b Specify the boundry for calling disordered regions of peptide sequence (default=± 0.005);
+* -f Specify the dpi of a figure (default = 750).
 
 Please use --help flag for more information on all options and parameters.
 
@@ -26,17 +27,17 @@ This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web ap
 * Allows the user to modify pH value (this feature is crucial for crystallographers);
 * The use of a residue pKa value table of one's preference;
 * Inclusion of N and C terminal charges into the calculation;
-* Uses floating point values for increased precion throughout all the calculation (i.e the values are only rounded when messages are printed to the user in the CLI);
-* The boundry line ± 0.005 for calling disordered peptide regions is included in this tool in contrast to the FoldIndex (it seems the FoldIndex authors in the publication falsley claimed it to be included). In addion, this boundry line can be modified by the user.
+* Uses floating point values for increased precion throughout the calculation (i.e the values are only rounded when messages are printed to the user in the CLI);
+* The boundry line ± 0.005 for calling disordered peptide regions is included in this tool in contrast to the FoldIndex (it seems the FoldIndex authors in the publication falsley claimed it to be included). In addion, this boundry line can be modified by the user;
+* Publication quality figure generation
 * Improved peptide charge plotting (negative values are plotted).
 
 ### Limitations
 The tool does not account for the pertrubed pKa values of residues by the neighbouring residue groups and does not assume any disuphide bridges.
 
 ### Upcoming features:
-*Coloured sequence highlights of the disordered regions
-*Increases in speed/cython compiled functions
-*Web app
+* Increases in speed/cython compiled functions
+* Web app
 
 ### Disclaimer
 preFold is an original work and does not copy any elements or principles of FoldIndex source code. It was built/cloned only from using the FoldIndex (Prilsuky and Felder et al, 2005) and algorithm (Uversky et al, 2000) publications in mind, preFold was further improved using these ideas as a foundation.
