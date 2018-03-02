@@ -4,7 +4,7 @@ A CLI tool to predict foldability of a peptide sequence. The program accepts a F
 
 ## Getting Started
 
-###Dependecies
+### Dependecies
 **The script was written in and intended to be used with Python 3.6 use it with caution when executing with 2.7 interpreter. You will need a SciPy stack and colorama installed to run the program with full functionality.**
 
 ### Example useage:
@@ -63,7 +63,7 @@ This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web ap
 * Improved peptide charge plotting (negative values are plotted).
 
 ### Upcoming features:
-* Increases in speed/cython compiled functions
+* .pyx file with static typing for Cython compilation for performence increase
 * Web app
 
 ### Limitations
@@ -76,5 +76,5 @@ The tool does not account for the pertrubed pKa values of residues by the neighb
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ### Acknowledgments & Disclaimer
-preFold is an original work and does not copy any elements or principles of FoldIndex source code. It was built/cloned only from using the FoldIndex (Prilsuky and Felder et al, 2005) and algorithm (Uversky et al, 2000) publications, preFold was further improved using these ideas as a foundation.
+preFold is an original work and does not copy any code elements or principles of FoldIndex source code. It was built/cloned only using ideas presented in the FoldIndex (Prilsuky and Felder et al, 2005) and algorithm (Uversky et al, 2000) publications, preFold was further improved using these ideas as a foundation.
 The peptide charge calculation method is used as described by Moore, 1985.

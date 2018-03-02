@@ -6,3 +6,5 @@ foo.txt
 .DS_store
 __pycache__
 1agj.fasta.txt
+setup.py
+fold_predict*

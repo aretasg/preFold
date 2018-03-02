@@ -5,7 +5,7 @@
 # all files distributed with the repository must be located in the same folder for the
 # program to be executable
 
-# todo: decimal module; compile to cython
+# todo: decimal module; compile to cython, add static typing.
 if __name__ == '__main__':
 
     import argparse
