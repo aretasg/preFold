@@ -1,13 +1,43 @@
 # preFold
-## TL;DR
+
 A CLI tool to predict foldability of a peptide sequence. The program accepts a FASTA file with multiple number of peptide sequences as input.
 
-Example useage: 'python preFold.py -i foo.fasta'. This will print out some information about the sequence, disordered regions in CLI and generate an .png file showing the predicted foldability of the peptide sequence.
+## Getting Started
 
+###Dependecies
 **The script was written in and intended to be used with Python 3.6 use it with caution when executing with 2.7 interpreter. You will need a SciPy stack and colorama installed to run the program with full functionality.**
 
-## Usage and arguments
+### Example useage:
+```
+python preFold.py -i foo.fasta
+```
+This will print out some information about the sequence, disordered regions in CLI and generate .png file showing the predicted foldability of the peptide sequence.
 
+### CLI message example using foo.fasta
+```
+Found 1 peptide sequence(s) in the FASTA file.
+Summary of '1AGJ:A|PDBID|CHAIN|SEQUENCE':
+242 residues, unfoldability 0.028 (Charge: -0.003, Phobic: 0.425)
+Number of Disordered Regions: 6
+Longest Disordered Region: 29
+Number of Disordered Residues: 100
+Predicted disorder segment: 1-22 length: 22 score: -0.237 ± 0.08
+Predicted disorder segment: 27-48 length: 22 score: -0.206 ± 0.10
+Predicted disorder segment: 77-81 length: 5 score: -0.118 ± 0.07
+Predicted disorder segment: 83-111 length: 29 score: -0.282 ± 0.15
+Predicted disorder segment: 154-164 length: 11 score: -0.112 ± 0.05
+Predicted disorder segment: 168-178 length: 11 score: -0.069 ± 0.03
+
+   1 EVSAEEIKKH EEKWNKYYGV NAFNLPKELF SKVDEKDRQK YPYNTIGNVF
+  51 VKGQTSATGV LIGKNTVLTN RHIAKFANGD PSKVSFRPSI NTDDNGNTET
+ 101 PYGEYEVKEI LQEPFGAGVD LALIRLKPDQ NGVSLGDKIS PAKIGTSNDL
+ 151 KDGDKLELIG YPFDHKVNQM HRSEIELTTL SRGLRYYGFT VPGNSGSGIF
+ 201 NSNGELVGIH SSKVSHLDRE HQINYGVGIG NYVKRIINEK NE
+
+(Predicted disordered segment)
+```
+
+## Usage and arguments
 * -i <file name> a flag to specify the filename and/or the directory of a file (note that this is the only required option);
 * -ph <int> a flag to specify a pH value to be used in the calculation (default = 7.4);
 * -pka <file name> a flag to specify a file containing pKa values of amino acids. Please use the default file as an example for the input file format. (default = PKA_DATA_VOET.DAT);
@@ -32,13 +62,19 @@ This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web ap
 * Publication quality figure generation
 * Improved peptide charge plotting (negative values are plotted).
 
-### Limitations
-The tool does not account for the pertrubed pKa values of residues by the neighbouring residue groups and does not assume any disuphide bridges.
-
 ### Upcoming features:
 * Increases in speed/cython compiled functions
 * Web app
 
-### Disclaimer
-preFold is an original work and does not copy any elements or principles of FoldIndex source code. It was built/cloned only from using the FoldIndex (Prilsuky and Felder et al, 2005) and algorithm (Uversky et al, 2000) publications in mind, preFold was further improved using these ideas as a foundation.
+### Limitations
+The tool does not account for the pertrubed pKa values of residues by the neighbouring residue groups and does not assume any disuphide bridges.
+
+## Authors
+* **Aretas Gaspariunas**
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+### Acknowledgments & Disclaimer
+preFold is an original work and does not copy any elements or principles of FoldIndex source code. It was built/cloned only from using the FoldIndex (Prilsuky and Felder et al, 2005) and algorithm (Uversky et al, 2000) publications, preFold was further improved using these ideas as a foundation.
 The peptide charge calculation method is used as described by Moore, 1985.
