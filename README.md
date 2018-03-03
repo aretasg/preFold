@@ -60,10 +60,10 @@ This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web ap
 * Uses floating point values for increased precion throughout the calculation (i.e the values are only rounded when messages are printed to the user in the CLI);
 * The boundry line ± 0.005 for calling disordered peptide regions is included in this tool in contrast to the FoldIndex (it seems the FoldIndex authors in the publication falsley claimed it to be included). In addion, this boundry line can be modified by the user;
 * Generation of publication quality figures;
+* .pyx file with static typing for compilation using Cython for performence increase
 * Improved peptide charge plotting (negative values are plotted).
 
 ### Upcoming features:
-* .pyx file with static typing for Cython compilation for performence increase
 * Web app
 
 ### Limitations

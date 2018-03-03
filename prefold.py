@@ -5,7 +5,7 @@
 # all files distributed with the repository must be located in the same folder for the
 # program to be executable
 
-# todo: decimal module; add static typing to .pyx
+# todo: decimal module
 if __name__ == '__main__':
 
     import argparse

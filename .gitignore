@@ -8,3 +8,8 @@ __pycache__
 1agj.fasta.txt
 setup.py
 fold_predict*
+build
+fions_cy.c
+fions_cy.html
+*testing*
+foo2.fasta
