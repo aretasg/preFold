@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import sys
 import numpy as np # 1.13.3
 import pandas as pd # 0.22.0
 import math

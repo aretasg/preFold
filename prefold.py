@@ -10,6 +10,7 @@ if __name__ == '__main__':
 
     import argparse
     import re
+    import sys
     from fions import *
 
     # CLI argument parser
@@ -100,7 +101,7 @@ if __name__ == '__main__':
             value, args.ter_include, args.ter_include, pka_data_dict, hb_data_dict)
             # returns pd dataframe with hb, charge and unfold column; stores in dict under the fasta tag as a key
 
-    # generating information statistics, general information and figures for the input
+    # generating statistics, general information and figures
     figure_number = 1
     for key, value in data_dict.items():
         if args.output_csv is True:
