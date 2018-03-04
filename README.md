@@ -1,6 +1,6 @@
 # preFold
 
-A CLI tool to predict foldability of a peptide sequence. The program accepts a FASTA file with multiple number of peptide sequences as input.
+A CLI tool to predict foldability of a peptide sequence. The program accepts a FASTA file with a multiple number of peptide sequences as input.
 
 ## Getting Started
 
@@ -56,11 +56,11 @@ Please use --help flag for more information on all options and parameters.
 This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web app. preFold surpasses the original in accuracy, availability of options and fixed mistakes. Here are listed a few of them:
 * Allows the user to modify pH value (this feature is crucial for crystallographers);
 * The use of a residue pKa value table of one's preference;
-* Inclusion of N and C terminal charges into the calculation;
-* Uses floating point values for increased precion throughout the calculation (i.e the values are only rounded when messages are printed to the user in the CLI);
-* The boundry line ± 0.005 for calling disordered peptide regions is included in this tool in contrast to the FoldIndex (it seems the FoldIndex authors in the publication falsley claimed it to be included). In addion, this boundry line can be modified by the user;
+* Optional inclusion of N and C terminal charges into the calculation;
+* Uses floating point values for increased precision throughout the calculation (i.e the values are only rounded when messages are printed to the user in the CLI);
+* The boundry line ± 0.005 for calling disordered peptide regions is included in this tool in contrast to the FoldIndex (it seems the FoldIndex authors in the publication mistakenly claimed it to be included). In addion, this boundry line can be modified by the user;
 * Generation of publication quality figures;
-* .pyx file with static typing for compilation using Cython for performence increase
+* .pyx file with static typing for compilation using Cython for performence increase;
 * Improved peptide charge plotting (negative values are plotted).
 
 ### Upcoming features:
@@ -76,5 +76,5 @@ The tool does not account for the pertrubed pKa values of residues by the neighb
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ### Acknowledgments & Disclaimer
-preFold is an original work and does not copy any code elements or principles of FoldIndex source code. It was built/cloned only using ideas presented in the FoldIndex (Prilsuky and Felder et al, 2005) and algorithm (Uversky et al, 2000) publications, preFold was further improved using these ideas as a foundation.
+preFold is an original work and does not copy any code elements or principles of FoldIndex source code. It was built/cloned only using ideas presented in the FoldIndex (Prilsuky and Felder et al, 2005) and the foldability prediction algorithm (Uversky et al, 2000) publications, preFold was further improved using these ideas as a foundation.
 The peptide charge calculation method is used as described by Moore, 1985.
