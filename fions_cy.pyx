@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
 import sys
-import numpy as np # 1.13.3
-import pandas as pd # 0.22.0
-import math
-import matplotlib.pyplot as plt # 2.1.2
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
 
@@ -125,7 +124,11 @@ cpdef object unfoldty_sliding_win (double ph_level, int win_size, int step, str 
     dict_all['hydrophobicity'] = hb_array
     dict_all['charge'] = charge_array
     dict_all['unfoldability'] = unfold_array
-    return pd.DataFrame(dict_all)
+
+    cdef object dt
+    dt = np.round(pd.DataFrame(dict_all), decimals=6)
+
+    return dt
 
 # prints some info about the unfolded regions
 cpdef void print_data_info (object value, str tag, dict seq_dict, dict hb_dict, dict pka_table, double ph_level, double boundry):
@@ -187,11 +190,12 @@ cpdef void print_data_info (object value, str tag, dict seq_dict, dict hb_dict, 
     # cdef str i2
     # writting colours
     cdef int counter = 0
+    counter = 0
     for k, v in disorder_dict.items():
-        string2print.insert(int(k[0]) - 1 + counter, f'{Fore.RED}')
-        string2print.insert(int(k[1]) + 1 + counter, f'{Style.RESET_ALL}')
-        string2print.insert(int(k[1]) + 2 + counter, f'{Fore.GREEN}')
-        string2print.insert(int(k[0]) - 1 + counter, f'{Style.RESET_ALL}')
+        string2print.insert(int(k[0]) - 1 + counter, 'red')
+        string2print.insert(int(k[1]) + 1 + counter, 'reset')
+        string2print.insert(int(k[1]) + 2 + counter, 'green')
+        string2print.insert(int(k[0]) - 1 + counter, 'reset')
         counter += 4
     # indentations
     cdef int index = 1
@@ -208,20 +212,49 @@ cpdef void print_data_info (object value, str tag, dict seq_dict, dict hb_dict, 
         else:
             index += 1
     # numbers
-    string2print = f'{Fore.GREEN}' + ''.join(string2print) + f'{Style.RESET_ALL}'
     cdef str new_string = ''
     cdef int index2 = 1
     cdef str i3
+    string2print = 'green' + ''.join(string2print) + 'reset'
+    stash_colour = 'reset'
+
     for i3 in string2print.split('\n'):
-        new_string = ''.join([new_string, str("% 4d" % index2) + ' ' + i3 + '\n'])
+        # formatting new string
+        new_string = ''.join([new_string, 'reset' + str("% 4d" % index2) + stash_colour + ' ' + i3 + '\n'])
+        # stashing colour
+        i3 = i3[::-1]
+        try:
+            m_obj = i3.index('green'[::-1])
+            m_obj2 = i3.index('red'[::-1])
+            if int(m_obj) < int(m_obj2):
+                stash_colour = 'green'
+            else:
+                stash_colour = 'red'
+        except ValueError:
+            try:
+                i3.index('red'[::-1])
+                stash_colour = 'red'
+            except ValueError:
+                try:
+                    i3.index('green'[::-1])
+                    stash_colour = 'green'
+                except ValueError:
+                    pass
+
         index2 += 50
-    print (new_string)
+
+    print (new_string.replace('red', f'{Fore.RED}').replace('green', f'{Fore.GREEN}').replace('reset', f'{Style.RESET_ALL}'))
     # print (''.join(string2print) + '\n')
     print (f'{Fore.RED}' + '(Predicted disordered segment)' + f'{Style.RESET_ALL}\n')
 
 # writes data to .csv
-def write_data_2_csv (tag, dataframe):
-    np.round(dataframe, decimals=5).to_csv('{0}.csv'.format(tag.split('|')[0]), sep=',', index=False)
+# writes data to .csv
+def write_data_2_csv (tag, dataframe, seq):
+    csv_df = dataframe.copy()
+    csv_df.insert(0, 'Residue', list(seq))
+    csv_df.insert(0, 'Residue number', [i for i in range(1, len(seq) + 1)])
+    csv_df.set_index('Residue number')
+    csv_df.to_csv('{0}.csv'.format(tag.split('|')[0]), sep=',', index=False)
 
 # generating unfoldability figures for each sequence
 cpdef void generate_figure (object y1, object y2, object y3, int win_size, str tag, int fig_counter, phobicity, charges, int dpi):

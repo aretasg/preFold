@@ -5,7 +5,6 @@
 # all files distributed with the repository must be located in the same folder for the
 # program to be executable
 
-# todo: decimal module
 if __name__ == '__main__':
 
     import argparse
@@ -105,7 +104,7 @@ if __name__ == '__main__':
     figure_number = 1
     for key, value in data_dict.items():
         if args.output_csv is True:
-            write_data_2_csv (key, value)
+            write_data_2_csv (key, value, sequence_dict[key])
         print_data_info (value['unfoldability'], key, sequence_dict, hb_data_dict, pka_data_dict, args.ph_lvl, args.boundry)
-        generate_figure (value['unfoldability'], value['hydrophobicity'], value['charge'], args.window_size, key, figure_number, args.plot_hb, args.plot_charge, args.figure_dpi)
+        #generate_figure (value['unfoldability'], value['hydrophobicity'], value['charge'], args.window_size, key, figure_number, args.plot_hb, args.plot_charge, args.figure_dpi)
         figure_number += 1

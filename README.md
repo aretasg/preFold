@@ -5,7 +5,12 @@ A CLI tool to predict foldability of a peptide sequence. The program accepts a F
 ## Getting Started
 
 ### Dependecies
-**The script was written in and intended to be used with Python 3.6 use it with caution when executing with 2.7 interpreter. You will need a SciPy stack and colorama installed to run the program with a full functionality.**
+**The script was written in and intended to be used with Python 3.6 use it with caution when executing with 2.7 interpreter. You will need a SciPy stack and colorama installed to run the program with a full functionality (see [requirements.txt](requirements.txt) file).**
+
+To intall required packages use pip:
+```
+pip install -r requirements.txt
+```
 
 ### Example useage:
 ```
@@ -58,7 +63,7 @@ This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web ap
 * The use of a residue pKa value table of one's preference;
 * Optional inclusion of N and C terminal charges into the calculation;
 * Uses floating point values for increased precision throughout the calculation (i.e the values are only rounded when messages are printed to the user in the CLI);
-* The boundry line ± 0.005 for calling disordered peptide regions is included in this tool in contrast to the FoldIndex (it seems the FoldIndex authors in the publication mistakenly claimed it to be included). In addion, this boundry line can be modified by the user;
+* The boundry line ± 0.005 for calling disordered peptide regions is included in this tool in contrast to the FoldIndex (it seems the FoldIndex authors in the publication mistakenly claimed it to be included). In additon, this boundry line can be modified by the user;
 * Generation of publication quality figures with an option to regulate the resolution of the output figure;
 * .pyx file with static typing for compilation using Cython for performence increase;
 * Improved peptide charge plotting (negative values are plotted).
@@ -67,7 +72,9 @@ This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web ap
 * Web app
 
 ### Limitations
-The tool does not account for the pertrubed pKa values of residues by the neighbouring residue groups and does not assume any disuphide bridges.
+* The tool does not account for the pertrubed pKa values of residues by the neighbouring residue groups and does not assume any disuphide bridges.
+* You might also notice differences in results produced by FoldIndex and preFold this is attributed to the set boundry condition (-b), pH and most importantly the pKa values used for the calculations.
+* Coloured schema of disordered regions is properly rendered only in the terminal window.
 
 ## Authors
 * **Aretas Gaspariunas**
