@@ -100,11 +100,12 @@ if __name__ == '__main__':
             value, args.ter_include, args.ter_include, pka_data_dict, hb_data_dict)
             # returns pd dataframe with hb, charge and unfold column; stores in dict under the fasta tag as a key
 
-    # generating statistics, general information and figures
+    # generating statistics, general information, sequence highlights and figures
     figure_number = 1
     for key, value in data_dict.items():
         if args.output_csv is True:
             write_data_2_csv (key, value, sequence_dict[key])
-        print_data_info (value['unfoldability'], key, sequence_dict, hb_data_dict, pka_data_dict, args.ph_lvl, args.boundry)
-        #generate_figure (value['unfoldability'], value['hydrophobicity'], value['charge'], args.window_size, key, figure_number, args.plot_hb, args.plot_charge, args.figure_dpi)
+        disorder_dict = print_data_info (value['unfoldability'], key, sequence_dict, hb_data_dict, pka_data_dict, args.ph_lvl, args.boundry)
+        coloured_seq (sequence_dict, key, disorder_dict)
+        generate_figure (value['unfoldability'], value['hydrophobicity'], value['charge'], args.window_size, key, figure_number, args.plot_hb, args.plot_charge, args.figure_dpi)
         figure_number += 1

@@ -169,10 +169,12 @@ def print_data_info (value, tag, seq_dict, hb_dict, pka_table, ph_level, boundry
         std_dev = np.std(value1)
         print ('Predicted disorder segment: {0}-{1} length: {2} score: {3:.3f} ± {4:.2f}'
             .format(key1[0], key1[1], len(value1), mean_, std_dev))
-    print ()
-    ########################
-    # this can be separated into a function; todo
-    # printing sequence coloured by ordered/disordered regions
+    print ('')
+
+    return disorder_dict
+
+# a function to highlight disordered regions if the sequence using colour
+def coloured_seq (seq_dict, tag, disorder_dict):
     try:
         from colorama import Fore # 0.3.9
         from colorama import Style

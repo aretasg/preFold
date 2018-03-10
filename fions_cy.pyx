@@ -178,7 +178,10 @@ cpdef void print_data_info (object value, str tag, dict seq_dict, dict hb_dict, 
             .format(key1[0], key1[1], len(value1), mean_, std_dev))
     print ('')
 
-    # printing sequence coloured by ordered/disordered regions
+    return disorder_dict
+
+# a function to highlight disordered regions if the sequence using colour
+cpdef coloured_seq (dict seq_dict, str tag, dict disorder_dict):
     try:
         from colorama import Fore # 0.3.9
         from colorama import Style
@@ -186,10 +189,7 @@ cpdef void print_data_info (object value, str tag, dict seq_dict, dict hb_dict, 
         sys.exit('Please make sure colorama module is installed for the coloured representation of the disordered regions')
 
     string2print = list(seq_dict[tag])
-    cdef object v
-    # cdef str i2
     # writting colours
-    cdef int counter = 0
     counter = 0
     for k, v in disorder_dict.items():
         string2print.insert(int(k[0]) - 1 + counter, 'red')
@@ -198,10 +198,9 @@ cpdef void print_data_info (object value, str tag, dict seq_dict, dict hb_dict, 
         string2print.insert(int(k[0]) - 1 + counter, 'reset')
         counter += 4
     # indentations
-    cdef int index = 1
-    cdef str i2
-    for n, i2 in enumerate(string2print):
-        if len(i2) > 1 or i2 == ' ' or i2 == '\n':
+    index = 1
+    for n, i in enumerate(string2print):
+        if len(i) > 1 or i == ' ' or i == '\n':
             pass
         elif index % 10 == 0:
             if index % 50 == 0:
@@ -211,43 +210,41 @@ cpdef void print_data_info (object value, str tag, dict seq_dict, dict hb_dict, 
             index += 1
         else:
             index += 1
-    # numbers
-    cdef str new_string = ''
-    cdef int index2 = 1
-    cdef str i3
-    string2print = 'green' + ''.join(string2print) + 'reset'
-    stash_colour = 'reset'
 
-    for i3 in string2print.split('\n'):
+    # numbers
+    string2print = 'green' + ''.join(string2print) + 'reset'
+    new_string = ''
+    index = 1
+    stash_colour = 'reset'
+    for i in string2print.split('\n'):
         # formatting new string
-        new_string = ''.join([new_string, 'reset' + str("% 4d" % index2) + stash_colour + ' ' + i3 + '\n'])
+        new_string = ''.join([new_string, 'reset' + str("% 4d" % index) + stash_colour + ' ' + i + '\n'])
         # stashing colour
-        i3 = i3[::-1]
+        i = i[::-1]
         try:
-            m_obj = i3.index('green'[::-1])
-            m_obj2 = i3.index('red'[::-1])
+            m_obj = i.index('green'[::-1])
+            m_obj2 = i.index('red'[::-1])
             if int(m_obj) < int(m_obj2):
                 stash_colour = 'green'
             else:
                 stash_colour = 'red'
         except ValueError:
             try:
-                i3.index('red'[::-1])
+                i.index('red'[::-1])
                 stash_colour = 'red'
             except ValueError:
                 try:
-                    i3.index('green'[::-1])
+                    i.index('green'[::-1])
                     stash_colour = 'green'
                 except ValueError:
                     pass
 
-        index2 += 50
+        index += 50
 
     print (new_string.replace('red', f'{Fore.RED}').replace('green', f'{Fore.GREEN}').replace('reset', f'{Style.RESET_ALL}'))
     # print (''.join(string2print) + '\n')
     print (f'{Fore.RED}' + '(Predicted disordered segment)' + f'{Style.RESET_ALL}\n')
 
-# writes data to .csv
 # writes data to .csv
 def write_data_2_csv (tag, dataframe, seq):
     csv_df = dataframe.copy()
