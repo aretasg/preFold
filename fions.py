@@ -152,24 +152,29 @@ def print_data_info (value, tag, seq_dict, hb_dict, pka_table, ph_level, boundry
         else:
             pass
 
-    print ("Summary of '{0}':".format(tag))
+    # check if there are any disordered regions
+    if disorder_dict:
+        print ("Summary of '{0}':".format(tag))
 
-    # unfoldability, charge and phobic mean information about the input sequence
-    hb_mean = hb_avg (seq_dict[tag], hb_dict)
-    charge = net_charge (seq_dict[tag], pka_table, ph_level, True, True)
-    unfoldability = unfoldability_algorithm (hb_mean, charge/(len(seq_dict[tag])))
-    print ('{3} residues, unfoldability {2:.3f} (Charge: {1:.3f}, Phobic: {0:.3f})'
-        .format(hb_mean, charge/(len(seq_dict[tag])), unfoldability, len(seq_dict[tag])))
+        # unfoldability, charge and phobic mean information about the input sequence
+        hb_mean = hb_avg (seq_dict[tag], hb_dict)
+        charge = net_charge (seq_dict[tag], pka_table, ph_level, True, True)
+        unfoldability = unfoldability_algorithm (hb_mean, charge/(len(seq_dict[tag])))
+        print ('{3} residues, unfoldability {2:.3f} (Charge: {1:.3f}, Phobic: {0:.3f})'
+            .format(hb_mean, charge/(len(seq_dict[tag])), unfoldability, len(seq_dict[tag])))
 
-    # information about the disordered regions in the input sequence
-    print ('Number of Disordered Regions: {0}\nLongest Disordered Region: {1}\nNumber of Disordered Residues: {2}'
-        .format(len(disorder_dict), longest_region, number_disordered_res))
-    for key1, value1 in disorder_dict.items():
-        mean_ = np.mean(value1)
-        std_dev = np.std(value1)
-        print ('Predicted disorder segment: {0}-{1} length: {2} score: {3:.3f} ± {4:.2f}'
-            .format(key1[0], key1[1], len(value1), mean_, std_dev))
-    print ('')
+        # information about the disordered regions in the input sequence
+        print ('Number of Disordered Regions: {0}\nLongest Disordered Region: {1}\nNumber of Disordered Residues: {2}'
+            .format(len(disorder_dict), longest_region, number_disordered_res))
+        for key1, value1 in disorder_dict.items():
+            mean_ = np.mean(value1)
+            std_dev = np.std(value1)
+            print ('Predicted disorder segment: {0}-{1} length: {2} score: {3:.3f} ± {4:.2f}'
+                .format(key1[0], key1[1], len(value1), mean_, std_dev))
+        print ('')
+    # if there are no disordered regions
+    else:
+        print ('No disordered regions found.')
 
     return disorder_dict
 
@@ -285,7 +290,7 @@ def generate_figure (y1, y2, y3, win_size, tag, fig_counter, phobicity, charges,
     # shrinking the plot to fit the legend at the bottom
     box = ax.get_position()
     ax.set_position([box.x0, box.y0 + box.height * 0.15, box.width, box.height * 0.85])
-    # creating legend markupds
+    # creating legend markups
     red_patch = mpatches.Patch(color='r', label='unfolded')
     green_patch = mpatches.Patch(color='g', label='folded')
     blue_line = mlines.Line2D([], [], color='blue',
@@ -307,7 +312,7 @@ def generate_figure (y1, y2, y3, win_size, tag, fig_counter, phobicity, charges,
             bbox_to_anchor=(0.5, -0.17), fancybox=True, ncol=5)
     # x axis tick
     locs = ax.xaxis.get_ticklocs()
-    ax.set_xticks(np.append(locs[1:], len(y1)))
+    ax.set_xticks(np.append(locs[1:-1], len(y1)))
     plt.xticks(rotation='vertical')
     #plt.show()
     plt.savefig('fold_predict_{0}.png'.format(tag.split('|')[0].replace('>', '') + '_' + str(fig_counter)), format='png', dpi=dpi, figsize=(8,4))

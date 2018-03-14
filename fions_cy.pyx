@@ -159,24 +159,29 @@ cpdef void print_data_info (object value, str tag, dict seq_dict, dict hb_dict, 
         else:
             pass
 
-    print ("Summary of '{0}':".format(tag))
+       # check if there are any disordered regions
+    if disorder_dict:
+        print ("Summary of '{0}':".format(tag))
 
-    # unfoldability, charge and phobic mean information about the input sequence
-    hb_mean = hb_avg (seq_dict[tag], hb_dict)
-    charge = net_charge (seq_dict[tag], pka_table, ph_level, True, True)
-    unfoldability = unfoldability_algorithm (hb_mean, charge/(len(seq_dict[tag])))
-    print ('{3} residues, unfoldability {2:.3f} (Charge: {1:.3f}, Phobic: {0:.3f})'
-        .format(hb_mean, charge/(len(seq_dict[tag])), unfoldability, len(seq_dict[tag])))
+        # unfoldability, charge and phobic mean information about the input sequence
+        hb_mean = hb_avg (seq_dict[tag], hb_dict)
+        charge = net_charge (seq_dict[tag], pka_table, ph_level, True, True)
+        unfoldability = unfoldability_algorithm (hb_mean, charge/(len(seq_dict[tag])))
+        print ('{3} residues, unfoldability {2:.3f} (Charge: {1:.3f}, Phobic: {0:.3f})'
+            .format(hb_mean, charge/(len(seq_dict[tag])), unfoldability, len(seq_dict[tag])))
 
-    # information about the disordered regions in the input sequence
-    print ('Number of Disordered Regions: {0}\nLongest Disordered Region: {1}\nNumber of Disordered Residues: {2}'
-        .format(len(disorder_dict), longest_region, number_disordered_res))
-    for key1, value1 in disorder_dict.items():
-        mean_ = np.mean(value1)
-        std_dev = np.std(value1)
-        print ('Predicted disorder segment: {0}-{1} length: {2} score: {3:.3f} ± {4:.2f}'
-            .format(key1[0], key1[1], len(value1), mean_, std_dev))
-    print ('')
+        # information about the disordered regions in the input sequence
+        print ('Number of Disordered Regions: {0}\nLongest Disordered Region: {1}\nNumber of Disordered Residues: {2}'
+            .format(len(disorder_dict), longest_region, number_disordered_res))
+        for key1, value1 in disorder_dict.items():
+            mean_ = np.mean(value1)
+            std_dev = np.std(value1)
+            print ('Predicted disorder segment: {0}-{1} length: {2} score: {3:.3f} ± {4:.2f}'
+                .format(key1[0], key1[1], len(value1), mean_, std_dev))
+        print ('')
+    # if there are no disordered regions
+    else:
+        print ('No disordered regions found.')
 
     return disorder_dict
 

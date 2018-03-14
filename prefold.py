@@ -22,29 +22,29 @@ if __name__ == '__main__':
     required = parser.add_argument_group('required arguments')
     optional = parser.add_argument_group('optional arguments')
     required.add_argument('-i', '--fasta',
-        help='Specify the FASTA file with a peptide sequence(s) for foldability prediciton ', required=True)
+        help='Specify the FASTA file with a peptide sequence(s) for foldability prediciton.', required=True)
     optional.add_argument('-ph', '--ph_lvl',
-        help='Specify the pH level to be used for the foldability prediction calculation (0.1 < pH < 14).', default=7.4, type=int)
-    optional.add_argument('-pka', '--pka_table',
-        help='Specify a file with amino acid residue pKa values to be used for the calculation', default='PKA_DATA_CRC.DAT')
-    optional.add_argument('-ter', '--ter_include',
-        help='Specify the flag for N and C terminal charges to be NOT included in the calculation', action='store_false')
+        help='Specify the pH level to be used for the foldability prediction calculation (0.1 < pH < 14). Default=7.4.', default=7.4, type=int)
     optional.add_argument('-s', '--step',
-        help='Specify the step to be used in the sliding window approach to calculate foldability prediction',
+        help='Specify the step to be used in the sliding window approach to calculate foldability prediction. Default=1.',
             default=1, type=int)
     optional.add_argument('-k', '--window_size',
-        help='Specify the window size to be used for the calculation', default=20, type=int)
+        help='Specify the window size to be used for the calculation. Default=50.', default=50, type=int)
     optional.add_argument('-csv', '--output_csv',
-        help='Specify this flag if you wish the numerical output to be provided as a .csv file',
+        help='Specify this flag if you wish the numerical output to be provided as a .csv file.',
             action='store_true')
     optional.add_argument('-z', '--plot_charge',
-        help='Specify this flag if you wish the charge of the sequence to be plotted', action='store_true')
+        help='Specify this flag if you wish the charge of the sequence to be plotted.', action='store_true')
     optional.add_argument('-hb', '--plot_hb',
-        help='Specify this flag if you wish the phobicity of the sequence to be plotted', action='store_true')
+        help='Specify this flag if you wish the phobicity of the sequence to be plotted.', action='store_true')
     optional.add_argument('-b', '--boundry',
-        help='Specify the boundry for calling disordered regions of peptide sequence', type=float, default=0.005)
+        help='Specify the boundry for calling disordered regions of peptide sequence. Default=0.005.', type=float, default=0.005)
+    optional.add_argument('-ter', '--ter_include',
+        help='Specify the flag for N and C terminal charges to be NOT included in the calculation.', action='store_false')
     optional.add_argument('-f', '--figure_dpi',
-        help='Specify the dpi (resolution) of a figure', type=int, default=200)
+        help='Specify the dpi (resolution) of a figure. Default=200.', type=int, default=200)
+    optional.add_argument('-pka', '--pka_table',
+        help='Specify a file with amino acid residue pKa values to be used for the calculation.', default='PKA_DATA_VOET.DAT')
     args = parser.parse_args()
 
     if args.ph_lvl < 0.1 or args.ph_lvl > 14:
@@ -60,7 +60,7 @@ if __name__ == '__main__':
             file_2_string = fasta_file.read().split('>')
             for sequence in file_2_string:
                 sequence_dict[sequence.split('\n')[0]] = ''.join(sequence.split
-                    ('\n')[1:]).upper().replace('*', '')
+                    ('\n')[1:]).upper().replace('*', '').replace('X', '') # excludes X from the sequences
             del sequence_dict['']
             # check if there a no more than 60 sequencies
             if len(sequence_dict) > 60:
@@ -74,7 +74,7 @@ if __name__ == '__main__':
                     continue
                 else:
                     sys.exit("The input '{0}' sequence(s) is not a peptide sequence".format(key))
-            print ('Found {0} peptide sequence(s) in the FASTA file.'.format(len(sequence_dict)))
+            print ('Found {0} peptide sequence(s) in the FASTA file.\n'.format(len(sequence_dict)))
     except IOError:
         sys.exit('Could not open the file! Please make sure {0} is in fasta format'.format(args.fasta))
 
@@ -95,10 +95,15 @@ if __name__ == '__main__':
 
     # performing hydrophobicity, charge and unfoldability data calculation using a sliding window
     data_dict = {}
-    for key, value in sequence_dict.items():
-        data_dict[key] = unfoldty_sliding_win (args.ph_lvl, args.window_size, args.step,
-            value, args.ter_include, args.ter_include, pka_data_dict, hb_data_dict)
-            # returns pd dataframe with hb, charge and unfold column; stores in dict under the fasta tag as a key
+    for key, value in sequence_dict.copy().items():
+        if len(value) > args.window_size: # checks if the sequence len is larger than win size
+            data_dict[key] = unfoldty_sliding_win (args.ph_lvl, args.window_size, args.step,
+                value, args.ter_include, args.ter_include, pka_data_dict, hb_data_dict)
+                # returns pd dataframe with hb, charge and unfold column; stores in dict under the fasta tag as a key
+        else:
+            print ('The peptide sequence {0} is shorter than selected window size and is excluded from the calculation.\n'
+                .format(key))
+            del sequence_dict[key]
 
     # generating statistics, general information, sequence highlights and figures
     figure_number = 1
@@ -106,6 +111,9 @@ if __name__ == '__main__':
         if args.output_csv is True:
             write_data_2_csv (key, value, sequence_dict[key])
         disorder_dict = print_data_info (value['unfoldability'], key, sequence_dict, hb_data_dict, pka_data_dict, args.ph_lvl, args.boundry)
-        coloured_seq (sequence_dict, key, disorder_dict)
-        generate_figure (value['unfoldability'], value['hydrophobicity'], value['charge'], args.window_size, key, figure_number, args.plot_hb, args.plot_charge, args.figure_dpi)
-        figure_number += 1
+        if disorder_dict:
+            coloured_seq (sequence_dict, key, disorder_dict)
+            generate_figure (value['unfoldability'], value['hydrophobicity'], value['charge'], args.window_size, key, figure_number, args.plot_hb, args.plot_charge, args.figure_dpi)
+            figure_number += 1
+        else:
+            pass
