@@ -164,7 +164,8 @@ def print_data_info (value, tag, seq_dict, hb_dict, pka_table, ph_level, boundry
             .format(hb_mean, charge/(len(seq_dict[tag])), unfoldability, len(seq_dict[tag])))
 
         # information about the disordered regions in the input sequence
-        print ('Number of Disordered Regions: {0}\nLongest Disordered Region: {1}\nNumber of Disordered Residues: {2}'
+        print ('Number of Disordered Regions: {0}\nLongest Disordered Region: \
+            {1}\nNumber of Disordered Residues: {2}'
             .format(len(disorder_dict), longest_region, number_disordered_res))
         for key1, value1 in disorder_dict.items():
             mean_ = np.mean(value1)
@@ -184,7 +185,8 @@ def coloured_seq (seq_dict, tag, disorder_dict):
         from colorama import Fore # 0.3.9
         from colorama import Style
     except:
-        sys.exit('Please make sure colorama module is installed for the coloured representation of the disordered regions')
+        sys.exit('Please make sure colorama module is installed for the coloured\
+         representation of the disordered regions')
 
     string2print = list(seq_dict[tag])
     # writting colours
@@ -216,7 +218,8 @@ def coloured_seq (seq_dict, tag, disorder_dict):
     stash_colour = 'reset'
     for i in string2print.split('\n'):
         # formatting new string
-        new_string = ''.join([new_string, 'reset' + str("% 4d" % index) + stash_colour + ' ' + i + '\n'])
+        new_string = ''.join([new_string, 'reset' + str("% 4d" % index) +
+            stash_colour + ' ' + i + '\n'])
         # stashing colour
         i = i[::-1]
         try:
@@ -239,7 +242,8 @@ def coloured_seq (seq_dict, tag, disorder_dict):
 
         index += 50
 
-    print (new_string.replace('red', f'{Fore.RED}').replace('green', f'{Fore.GREEN}').replace('reset', f'{Style.RESET_ALL}'))
+    print (new_string.replace('red', f'{Fore.RED}').replace('green',
+        f'{Fore.GREEN}').replace('reset', f'{Style.RESET_ALL}'))
     # print (''.join(string2print) + '\n')
     print (f'{Fore.RED}' + '(Predicted disordered segment)' + f'{Style.RESET_ALL}\n')
 
@@ -284,8 +288,10 @@ def generate_figure (y1, y2, y3, win_size, tag, fig_counter, phobicity, charges,
     # filling neg/pos values with green/red colour
     x_axis_new = x_axis[int(win_size/2 - 1):int(len(y1) - win_size/2)]
     y_axis_new = y1[int(win_size/2 - 1):int(len(y1) - win_size/2)]
-    plt.fill_between(x_axis_new, 0, y_axis_new , where=y_axis_new >0, interpolate=True, color='g', zorder=4)
-    plt.fill_between(x_axis_new, 0, y_axis_new , where=y_axis_new <0, interpolate=True, color='r', zorder=4)
+    plt.fill_between(x_axis_new, 0, y_axis_new , where=y_axis_new >0,
+        interpolate=True, color='g', zorder=4)
+    plt.fill_between(x_axis_new, 0, y_axis_new , where=y_axis_new <0,
+        interpolate=True, color='r', zorder=4)
     # legend
     # shrinking the plot to fit the legend at the bottom
     box = ax.get_position()
@@ -315,7 +321,8 @@ def generate_figure (y1, y2, y3, win_size, tag, fig_counter, phobicity, charges,
     ax.set_xticks(np.append(locs[1:-1], len(y1)))
     plt.xticks(rotation='vertical')
     #plt.show()
-    plt.savefig('fold_predict_{0}.png'.format(tag.split('|')[0].replace('>', '') + '_' + str(fig_counter)), format='png', dpi=dpi, figsize=(8,4))
+    plt.savefig('fold_predict_{0}.png'.format(tag.split('|')[0].replace('>', '')
+        + '_' + str(fig_counter)), format='png', dpi=dpi, figsize=(8,4))
 
 if __name__ == '__main__':
     pass

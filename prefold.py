@@ -44,7 +44,7 @@ if __name__ == '__main__':
     optional.add_argument('-f', '--figure_dpi',
         help='Specify the dpi (resolution) of a figure. Default=200.', type=int, default=200)
     optional.add_argument('-pka', '--pka_table',
-        help='Specify a file with amino acid residue pKa values to be used for the calculation.', default='PKA_DATA_VOET.DAT')
+        help='Specify a file with amino acid residue pKa values to be used for the calculation.', default='datasets/PKA_DATA_VOET.DAT')
     args = parser.parse_args()
 
     if args.ph_lvl < 0.1 or args.ph_lvl > 14:
@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
     # open and parse normalised amino acid hydrophobicity data
     hb_data_dict = {}
-    with open ('HB_DATA_NORM.DAT') as hb_data:
+    with open ('datasets/HB_DATA_NORM.DAT') as hb_data:
         for line in hb_data:
             hb_data_dict[line.split()[0]] = float(line.split()[1])
 

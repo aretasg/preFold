@@ -7,7 +7,7 @@ A CLI tool to predict foldability of a peptide sequence. The program accepts a F
 ### Dependecies
 **The script was written in and intended to be used with Python 3.6 use it with caution when executing with 2.7 interpreter. You will need a SciPy stack and colorama installed to run the program with a full functionality (see [requirements.txt](requirements.txt) file).**
 
-To install required packages use pip:
+To install required packages use pip (recommended together with virtualenv):
 ```
 pip install -r requirements.txt
 ```
