@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import numpy as np
 import pandas as pd
@@ -164,13 +164,12 @@ def print_data_info (value, tag, seq_dict, hb_dict, pka_table, ph_level, boundry
             .format(hb_mean, charge/(len(seq_dict[tag])), unfoldability, len(seq_dict[tag])))
 
         # information about the disordered regions in the input sequence
-        print ('Number of Disordered Regions: {0}\nLongest Disordered Region: \
-            {1}\nNumber of Disordered Residues: {2}'
+        print ('Number of Disordered Regions: {0}\nLongest Disordered Region: {1}\nNumber of Disordered Residues: {2}'
             .format(len(disorder_dict), longest_region, number_disordered_res))
         for key1, value1 in disorder_dict.items():
             mean_ = np.mean(value1)
             std_dev = np.std(value1)
-            print ('Predicted disorder segment: {0}-{1} length: {2} score: {3:.3f} ± {4:.2f}'
+            print (u'Predicted disorder segment: {0}-{1} length: {2} score: {3:.3f} ± {4:.2f}'
                 .format(key1[0], key1[1], len(value1), mean_, std_dev))
         print ('')
     # if there are no disordered regions
@@ -179,7 +178,7 @@ def print_data_info (value, tag, seq_dict, hb_dict, pka_table, ph_level, boundry
 
     return disorder_dict
 
-# a function to highlight disordered regions if the sequence using colour
+# a function to highlight disordered regions using colour (green/red)
 def coloured_seq (seq_dict, tag, disorder_dict):
     try:
         from colorama import Fore # 0.3.9
