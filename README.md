@@ -22,7 +22,7 @@ This will print out some information about the sequence, disordered regions in C
 ![alt text](https://raw.githubusercontent.com/aretas2/preFold/master/example/foo.png)
 
 ### CLI message example using foo.fasta
-![alt text](https://raw.githubusercontent.com/aretas2/preFold/master/example/CLI_message_example.png)
+![alt text](https://raw.githubusercontent.com/aretas2/preFold/master/example/CLI_output_example_foo.png)
 
 ## Usage and arguments
 * -i <file name> a flag to specify the filename and/or the directory of a file (note that this is the only required option);
