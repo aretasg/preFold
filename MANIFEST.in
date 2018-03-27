@@ -1,0 +1,3 @@
+include prefold_py/datasets/*.dat
+exclude prefold_py/datasets/HB_DATA.DAT
+exclude old_stuff

@@ -5,16 +5,17 @@ A CLI tool to predict foldability of a peptide sequence. The program accepts a F
 ## Getting Started
 
 ### Dependecies
-**The script was written in and is intended to be used with Python 3.6; preFold works with 2.7 interpreter but use with caution! You will need a SciPy stack installed to run the program with a full functionality (see [requirements.txt](requirements.txt) file). Windows users also must install colorama packages**
+**The script was written in and is intended to be used with Python 3.6; preFold works with 2.7 interpreter but use with caution! You will need a SciPy stack installed to run the program with a full functionality (see [requirements.txt](requirements.txt) file). Windows users must also install colorama packages**
 
-To install required packages use pip (recommended together with virtualenv):
+Install required packages and a preFold CLI tool (highly recommended together with virtualenv or similar):
 ```
-pip install -r requirements.txt
+bash install_cli_tool.sh <python-distribution> # the argument here is the Python interpreter to be used to build preFold
 ```
+Alternatively, you can load the tool manually from ./prefold_py/prefold_cli.py
 
 ### Example usage:
 ```
-python preFold.py -i foo.fasta
+prefold -i <fasta_file>
 ```
 This will print out some information about the sequence, disordered regions in CLI and generate .png file showing the predicted foldability of the peptide sequence.
 
@@ -25,9 +26,9 @@ This will print out some information about the sequence, disordered regions in C
 ![alt text](https://raw.githubusercontent.com/aretas2/preFold/master/example/CLI_output_example_foo.png)
 
 ## Usage and arguments
-* -i <file name> a flag to specify the filename and/or the directory of a file (note that this is the only required option);
+* -i <file name> a flag to specify the filename and/or the directory of a file (note that this is the only required argument);
 * -ph <int> a flag to specify a pH value to be used in the calculation (default = 7.4);
-* -pka <file name> a flag to specify a file containing pKa values of amino acids. Please use the default file as an example for the input file format. (default = PKA_DATA_VOET.DAT);
+* -pka <file name> a flag to specify a file containing pKa values of amino acids. Please use the default file as an example for the input file format. Must be located in a datasets folder (default = PKA_DATA_VOET.DAT);
 * -s <int> a flag to specify a step for the sliding window to be used in the calculation (default = 1);
 * -k <int> a flag to specify the window size (default = 50);
 * -csv a flag to generate numerical output in .csv format;
