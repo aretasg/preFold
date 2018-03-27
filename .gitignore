@@ -6,7 +6,7 @@ foo.txt
 .DS_store
 __pycache__
 1agj.fasta.txt
-setup.py
+*cy.py
 fold_predict*
 build
 fions_cy.c
@@ -16,3 +16,4 @@ foo2.fasta
 env
 .ipynb*
 prefold_fions2.py
+*.pdf

@@ -10,7 +10,7 @@ if __name__ == '__main__':
     import argparse
     import re
     import sys
-    from prefold_fions import *
+    from fions_prefold import *
 
     # CLI argument parser
     parser = argparse.ArgumentParser(
