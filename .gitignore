@@ -3,7 +3,6 @@ norm_hb.py
 .DS_store
 __pycache__
 fold_predict*
-*testing*
 foo2.fasta
 env
 .ipynb*

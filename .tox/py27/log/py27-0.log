@@ -1,0 +1,5 @@
+actionid: py27
+msg: getenv
+cmdargs: ['/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python', '-m', 'virtualenv', '--python', '/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7', 'py27']
+
+/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python: No module named virtualenv

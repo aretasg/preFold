@@ -3,7 +3,8 @@ Peptide sequence foldability prediciton tool
 """
 from setuptools import setup
 
-dependencies = ['numpy', 'pandas', 'matplotlib', 'colorama']
+dependencies = ['numpy >= 1.14.1', 'pandas >= 0.22.0',
+    'matplotlib >= 2.1.2', 'colorama >= 0.3.9']
 
 setup(
     name='prefold',
@@ -14,15 +15,16 @@ setup(
     author_email='aretasgasp@gmail.com',
     description='Peptide sequence foldability prediciton tool',
     long_description=open('README.md').read(),
-    packages=['prefold_py'],
+    packages=['pprefold'],
     include_package_data=True,
     zip_safe=False,
     platforms='any',
     install_requires=dependencies,
-    data_files = [('', ['prefold_py/datasets/HB_DATA_NORM.DAT', 'prefold_py/datasets/PKA_DATA_VOET.DAT'])],
-    entry_points={
-        'console_scripts': ['prefold = prefold_py.prefold_cli:main'],
-    },
+    data_files = [('', ['pprefold/datasets/HB_DATA_NORM.DAT', 'pprefold/datasets/PKA_DATA_VOET.DAT'])],
+    entry_points='''
+    [console_scripts]
+    prefold=pprefold.prefold_cli:main
+    ''',
     classifiers=[
         'Development Status :: Beta',
         'Intended Audience :: Developers :: Scientists',

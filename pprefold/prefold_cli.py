@@ -17,22 +17,27 @@ def data_import (pka_file='PKA_DATA_VOET.DAT'):
     DATA_PATH = os.path.join(this_dir, "datasets", "data.txt")
 
     # open and parse normalised amino acid hydrophobicity data
-    hb_data_dict = {}
+    hb_data_dictionary = {}
     with open (DATA_PATH.replace('data.txt', 'HB_DATA_NORM.DAT')) as hb_data:
         for line in hb_data:
-            hb_data_dict[line.split()[0]] = float(line.split()[1])
+            hb_data_dictionary[line.split()[0]] = float(line.split()[1])
 
     # open and parse pKa data
     try:
-        pka_data_dict = {}
-        with open (DATA_PATH.replace('data.txt', pka_file)) as pka_data:
-            for line in pka_data:
-                pka_data_dict[line.split()[0]] = [float(i) for i in line.split()[1:]]
+        pka_data_dictionary = {}
+        if pka_file in ['PKA_DATA_VOET.DAT', 'PKA_DATA_CRC.DAT']:
+            pka_data = open(DATA_PATH.replace('data.txt', pka_file))
+        else:
+            pka_data = open(pka_file)
+        for line in pka_data:
+            pka_data_dictionary[line.split()[0]] = [float(i) for i in line.split()[1:]]
+        pka_data.close()
+
     except IOError:
         sys.exit('Could not open the pKa table file! Please make sure {0} is in the right format.'
             .format(pka_file))
 
-    return [hb_data_dict, pka_data_dict]
+    return [hb_data_dictionary, pka_data_dictionary]
 
 hb_data_dict = data_import()[0]
 pka_data_dict = data_import()[1]
@@ -356,7 +361,7 @@ def main():
     # CLI argument parser
     parser = argparse.ArgumentParser(
         description='''A CLI tool to predict foldability of a peptide sequence.\n
-            The tool is inteded to be used with Python 3.6.\n
+            The tool is inteded to be used with Python 3.6 or 2.7.\n
             For more information and support please visit: github.com/aretas2/preFold''',
         epilog='Example usage in CLI: "prefold.py -i foo.fasta"')
     parser._action_groups.pop()
@@ -421,7 +426,7 @@ def main():
                 pass
             # check if the sequence is a peptide
             for key, value in sequence_dict.items():
-                if re.search(r'S|V|L|I|M|F|R|H|Y|W|P|E|D|Q|N|K', value):
+                if re.search(r'S|L|I|M|F|R|E|K|D|O|H|N|Y|V|W|P', value):
                     continue
                 else:
                     sys.exit("The input '{0}' sequence(s) is not a peptide sequence.".format(key))
@@ -430,6 +435,7 @@ def main():
         sys.exit('Could not open the file! Please make sure {0} is in fasta format'.format(args.fasta))
 
     # importing data files
+    #if args.pka_table == 'PKA_DATA_VOET.DAT':
     pka_data_dict = data_import(args.pka_table)[1]
 
     # performing hydrophobicity, charge and unfoldability data calculation using a sliding window

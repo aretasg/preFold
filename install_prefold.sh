@@ -1,9 +1,23 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-sudo $1 -m pip install -r requirements.txt
-chmod +x setup.py
-$1 ./setup.py install
-echo "***"
-echo "CLI tool prefold installed with $1 distribution.
-    Example usage: 'prefold -i <fasta_file>'"
-echo "***"
+if [ $# -eq 0 ]
+  then
+    echo "Please specify a Python interpreter to be used for installation!"
+    exit 1
+fi
+
+{
+    sudo $1 -m pip install -r requirements.txt &&
+    chmod +x setup.py &&
+    $1 ./setup.py install &&
+    echo "
+***
+CLI tool preFold for peptide sequence foldability prediction installed with $1 distribution.
+Example usage: 'prefold -i <fasta_file>'
+***"
+} || {
+    echo "
+***
+Failed to install the package! Please check if pip and the Python distribution specified as argument are installed on the machine!
+***"
+}

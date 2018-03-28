@@ -4,14 +4,14 @@ A CLI tool to predict foldability of a peptide sequence. The program accepts a F
 
 ## Getting Started
 
-### Dependecies
-**The script was written in and is intended to be used with Python 3.6; preFold works with 2.7 interpreter but use with caution! You will need a SciPy stack installed to run the program with a full functionality (see [requirements.txt](requirements.txt) file). Windows users must also install colorama packages**
+### Dependecies & Installation
+**The script was written in and is intended to be used with Python 3.6; preFold works with 2.7 interpreter but use with caution! You will need a SciPy stack installed to run the program with a full functionality (see [requirements.txt](requirements.txt) file). Windows users must also install colorama package.**
 
 Install required packages and a preFold CLI tool (highly recommended together with virtualenv or similar):
 ```
 bash install_cli_tool.sh <python-distribution> # the argument here is the Python interpreter to be used to build preFold
 ```
-Alternatively, you can load the tool manually from ./prefold_py/prefold_cli.py
+Alternatively, you can install with "pip install" or load the tool directly from ./prefold/prefold_cli.py
 
 ### Example usage:
 ```
@@ -28,14 +28,14 @@ This will print out some information about the sequence, disordered regions in C
 ## Usage and arguments
 * -i <file name> a flag to specify the filename and/or the directory of a file (note that this is the only required argument);
 * -ph <int> a flag to specify a pH value to be used in the calculation (default = 7.4);
-* -pka <file name> a flag to specify a file containing pKa values of amino acids. Please use the default file as an example for the input file format. Must be located in a datasets folder (default = PKA_DATA_VOET.DAT);
 * -s <int> a flag to specify a step for the sliding window to be used in the calculation (default = 1);
 * -k <int> a flag to specify the window size (default = 50);
-* -csv a flag to generate numerical output in .csv format;
 * -z Specify the flag for charge of the sequence to be plotted on the figure;
 * -hb Specify the flag for hydrophobicity of the sequence to be plotted on the figure.
 * -ter a flag to exclude N and C terminal charges from the calculation;
+* -pka <file name> a flag to specify a file containing pKa values of amino acids. Please use the default file as an example for the input file format. Must be located in a datasets folder (default = PKA_DATA_VOET.DAT);
 * -b Specify the boundry for calling disordered regions of peptide sequence (default=± 0.005);
+* -csv a flag to generate numerical output in .csv format;
 * -f Specify the dpi (resolution) of a figure (default = 200).
 
 Please use --help flag for more information on all options and parameters.
@@ -56,8 +56,8 @@ This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web ap
 
 ### Limitations
 * The tool does not account for the pertrubed pKa values of residues by the neighbouring residue groups and does not assume any disuphide bridges.
-* You might also notice minor differences in results produced by FoldIndex and preFold this is attributed to the set boundry condition (-b), pH and, most importantly, the pKa values used for the calculations.
-* Coloured schema of disordered regions is properly rendered only in the terminal window and only if the background colour is other than green or red.
+* You might also notice minor differences in results produced by preFold and FoldIndex this is attributed to the set boundry condition (-b), pH and, most importantly, the pKa values used for the calculations.
+* Coloured schema of disordered regions is properly rendered only in the terminal window and only if the terminal background colour is other than green or red.
 
 ## Authors
 * **Aretas Gaspariunas**

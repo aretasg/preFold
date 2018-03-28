@@ -1,0 +1,57 @@
+actionid: tox
+msg: packaging
+cmdargs: ['/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python', local('/Users/Aretas/FoldIndex_clone/setup.py'), 'sdist', '--formats=zip', '--dist-dir', local('/Users/Aretas/FoldIndex_clone/.tox/dist')]
+
+running sdist
+running egg_info
+writing requirements to prefold.egg-info/requires.txt
+writing prefold.egg-info/PKG-INFO
+writing top-level names to prefold.egg-info/top_level.txt
+writing dependency_links to prefold.egg-info/dependency_links.txt
+writing entry points to prefold.egg-info/entry_points.txt
+reading manifest file 'prefold.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+warning: no files found matching 'prefold_py/datasets/*.dat'
+warning: no previously-included files found matching 'prefold_py/datasets/HB_DATA.DAT'
+warning: no previously-included files found matching 'old_stuff'
+writing manifest file 'prefold.egg-info/SOURCES.txt'
+running check
+creating prefold-0.1.0
+creating prefold-0.1.0/pprefold
+creating prefold-0.1.0/pprefold/datasets
+creating prefold-0.1.0/prefold.egg-info
+copying files to prefold-0.1.0...
+copying MANIFEST.in -> prefold-0.1.0
+copying README.md -> prefold-0.1.0
+copying setup.cfg -> prefold-0.1.0
+copying setup.py -> prefold-0.1.0
+copying pprefold/__init__.py -> prefold-0.1.0/pprefold
+copying pprefold/prefold_cli.py -> prefold-0.1.0/pprefold
+copying pprefold/datasets/HB_DATA_NORM.DAT -> prefold-0.1.0/pprefold/datasets
+copying pprefold/datasets/PKA_DATA_VOET.DAT -> prefold-0.1.0/pprefold/datasets
+copying prefold.egg-info/PKG-INFO -> prefold-0.1.0/prefold.egg-info
+copying prefold.egg-info/SOURCES.txt -> prefold-0.1.0/prefold.egg-info
+copying prefold.egg-info/dependency_links.txt -> prefold-0.1.0/prefold.egg-info
+copying prefold.egg-info/entry_points.txt -> prefold-0.1.0/prefold.egg-info
+copying prefold.egg-info/not-zip-safe -> prefold-0.1.0/prefold.egg-info
+copying prefold.egg-info/requires.txt -> prefold-0.1.0/prefold.egg-info
+copying prefold.egg-info/top_level.txt -> prefold-0.1.0/prefold.egg-info
+Writing prefold-0.1.0/setup.cfg
+creating '.tox/dist/prefold-0.1.0.zip' and adding 'prefold-0.1.0' to it
+adding 'prefold-0.1.0/PKG-INFO'
+adding 'prefold-0.1.0/MANIFEST.in'
+adding 'prefold-0.1.0/README.md'
+adding 'prefold-0.1.0/setup.py'
+adding 'prefold-0.1.0/setup.cfg'
+adding 'prefold-0.1.0/prefold.egg-info/PKG-INFO'
+adding 'prefold-0.1.0/prefold.egg-info/not-zip-safe'
+adding 'prefold-0.1.0/prefold.egg-info/SOURCES.txt'
+adding 'prefold-0.1.0/prefold.egg-info/entry_points.txt'
+adding 'prefold-0.1.0/prefold.egg-info/requires.txt'
+adding 'prefold-0.1.0/prefold.egg-info/top_level.txt'
+adding 'prefold-0.1.0/prefold.egg-info/dependency_links.txt'
+adding 'prefold-0.1.0/pprefold/prefold_cli.py'
+adding 'prefold-0.1.0/pprefold/__init__.py'
+adding 'prefold-0.1.0/pprefold/datasets/PKA_DATA_VOET.DAT'
+adding 'prefold-0.1.0/pprefold/datasets/HB_DATA_NORM.DAT'
+removing 'prefold-0.1.0' (and everything under it)
