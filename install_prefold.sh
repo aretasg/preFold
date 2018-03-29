@@ -4,10 +4,12 @@ if [ $# -eq 0 ]
   then
     echo "Please specify a Python interpreter to be used for installation!"
     exit 1
+    # echo "Python interpreter was not specified for the installation. Using default: python"
+    # ${1:-python}
 fi
 
 {
-    sudo $1 -m pip install -r requirements.txt &&
+    # sudo interpreter -m pip install -r requirements.txt &&
     chmod +x setup.py &&
     $1 ./setup.py install &&
     echo "
@@ -18,6 +20,6 @@ Example usage: 'prefold -i <fasta_file>'
 } || {
     echo "
 ***
-Failed to install the package! Please check if pip and the Python distribution specified as argument are installed on the machine!
+Failed to install the package! Please check if pip and the Python distribution are installed on the machine. Alternatively, try to install using virtualenv/venv/conda etc!
 ***"
 }

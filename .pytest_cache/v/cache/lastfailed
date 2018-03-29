@@ -1,0 +1,4 @@
+{
+  "tests/test_modules.py::test_exit_with_nuceotide_file": true,
+  "tests/test_modules.py::test_if_parser_detects_nucleotides": true
+}

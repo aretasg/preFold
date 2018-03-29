@@ -8,7 +8,7 @@ dependencies = ['numpy >= 1.14.1', 'pandas >= 0.22.0',
 
 setup(
     name='prefold',
-    version='0.1.0',
+    version='0.1.2',
     url='https://github.com/aretas2/preFold',
     license='BSD',
     author='Aretas Gaspariunas',
@@ -19,12 +19,13 @@ setup(
     include_package_data=True,
     zip_safe=False,
     platforms='any',
+    test_suite='nose.collector',
+    tests_require=['nose'],
     install_requires=dependencies,
     data_files = [('', ['pprefold/datasets/HB_DATA_NORM.DAT', 'pprefold/datasets/PKA_DATA_VOET.DAT'])],
-    entry_points='''
-    [console_scripts]
-    prefold=pprefold.prefold_cli:main
-    ''',
+    entry_points={
+    'console_scripts':'prefold=pprefold:main'
+    },
     classifiers=[
         'Development Status :: Beta',
         'Intended Audience :: Developers :: Scientists',
@@ -35,6 +36,6 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
-        'Topic :: Scientific/Engineering :: Software Development :: Libraries :: Python Modules'
+        'Topic :: Scientific/Engineering :: Bioinformatics :: Command-line tool'
         ]
 )

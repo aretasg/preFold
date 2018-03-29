@@ -1,0 +1,9 @@
+[
+  "tests/test_modules.py::test_module_import_and_net_charge_function",
+  "tests/test_modules.py::test_data_import",
+  "tests/test_modules.py::test_sliding_window_is_empty",
+  "tests/test_modules.py::test_fasta_parser",
+  "tests/test_modules.py::test_multiple_sequences_in_fasta_parsing",
+  "tests/test_modules.py::test_file_parsing_nuceotide_fasta",
+  "tests/test_modules.py::test_f"
+]
