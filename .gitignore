@@ -8,5 +8,6 @@ tox.ini
 *cython.py
 *egg-info*
 .tox
-requirements*
+requirements.txt
 tests/prefold_testing_timeit.py
+.pytest_*
