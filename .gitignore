@@ -11,3 +11,4 @@ tox.ini
 requirements.txt
 tests/prefold_testing_timeit.py
 .pytest_*
+.eggs
