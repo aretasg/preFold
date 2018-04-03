@@ -1,5 +1,8 @@
-[![Build Status](https://travis-ci.org/aretas2/preFold.svg?branch=master)](https://travis-ci.org/aretas2/preFold)
 # preFold
+=====
+
+[![Build Status](https://travis-ci.org/aretas2/preFold.svg?branch=master)](https://travis-ci.org/aretas2/preFold)
+
 A CLI tool to predict foldability of a peptide sequence. The program accepts a FASTA file with a multiple number of peptide sequences as input.
 
 ## Getting Started
