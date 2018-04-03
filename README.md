@@ -5,13 +5,13 @@ A CLI tool to predict foldability of a peptide sequence. The program accepts a F
 ## Getting Started
 
 ### Dependecies & Installation
-**The script was written in and is intended to be used with Python 3.6; preFold works with 2.7 interpreter but use with caution! You will need a SciPy stack installed to run the program with a full functionality (see [requirements.txt](requirements.txt) file). Windows users must also install colorama package.**
+**The script was written in and is intended to be used with Python 3.6; preFold works with 2.7 interpreter but use with caution! You will need a SciPy stack installed to run the program with a full functionality. Windows users must also install colorama package.**
 
-Install required packages and a preFold CLI tool (highly recommended together with virtualenv or similar):
+Install required packages and a preFold CLI tool (highly recommended together with virtualenv or similar) with:
 ```
 bash install_cli_tool.sh <python-distribution> # the argument here is the Python interpreter to be used to build preFold
 ```
-Alternatively, you can install with "pip install" or load the tool directly from ./prefold/prefold_cli.py
+Alternatively, you can install with "pip install ." or load the tool directly from /pprefold/__init__.py
 
 ### Example usage:
 ```
@@ -49,7 +49,7 @@ This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web ap
 * Optional inclusion of N and C terminal charges into the calculation;
 * Uses floating point values for increased precision throughout the calculation (i.e the values are only rounded when messages are printed to the user in the CLI);
 * Generation of publication quality figures with an option to regulate the resolution of the output figure;
-* .pyx file for Cython compilation for performence increase in speed;
+.pyx file for Cython compilation for performence increase in speed.
 
 ### Upcoming features:
 * Web app
@@ -63,7 +63,7 @@ This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web ap
 * **Aretas Gaspariunas**
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the BSD License - see the [LICENSE](LICENSE) file for details
 
 ### Acknowledgments & Disclaimer
 preFold is an original work and does not copy any code elements or principles of FoldIndex source code. It was built/cloned only using ideas presented in the FoldIndex (Prilsuky and Felder et al, 2005) and the foldability prediction algorithm (Uversky et al, 2000) publications, preFold was further improved using these ideas as a foundation.
