@@ -1,5 +1,4 @@
 # preFold
-=====
 
 [![Build Status](https://travis-ci.org/aretas2/preFold.svg?branch=master)](https://travis-ci.org/aretas2/preFold)
 
@@ -52,7 +51,7 @@ This tool is a Python clone of a [FoldIndex](https://fold.weizmann.ac.il) web ap
 * Optional inclusion of N and C terminal charges into the calculation;
 * Uses floating point values for increased precision throughout the calculation (i.e the values are only rounded when messages are printed to the user in the CLI);
 * Generation of publication quality figures with an option to regulate the resolution of the output figure;
-.pyx file for Cython compilation for performence increase in speed.
+* .pyx file for Cython compilation for performence increase in speed.
 
 ### Upcoming features:
 * Web app
