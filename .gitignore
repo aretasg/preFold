@@ -12,3 +12,4 @@ requirements.txt
 tests/prefold_testing_timeit.py
 .pytest_*
 .eggs
+setup.cfg
